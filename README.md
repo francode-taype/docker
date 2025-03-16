@@ -46,9 +46,6 @@ Este archivo contiene una lista de los comandos de Docker más utilizados, con e
 2. **`docker run -d <imagen>`**  
    Ejecuta un contenedor en segundo plano (detached mode). Esto es útil si no quieres que el contenedor se ejecute en tu terminal actual y prefieres que Docker lo ejecute en segundo plano.
 
-   - **Explicación:**
-     Usar `-d` (detached mode) permite ejecutar el contenedor sin mantenerlo en primer plano en tu terminal. Esto es útil cuando ejecutas aplicaciones como servidores web, bases de datos, etc.
-
    - **Ejemplo:**
      ```bash
      docker run -d nginx
@@ -91,6 +88,12 @@ Este archivo contiene una lista de los comandos de Docker más utilizados, con e
 12. **`docker unpause <id del contenedor>`**  
     Despausa un contenedor previamente pausado.
 
+13. **`docker container prune`**  
+    Elimina todos los contenedores detenidos.
+
+14. **`docker container prune -f`**  
+    Elimina todos los contenedores detenidos sin solicitar confirmación.
+
 ---
 
 ## Comandos de Gestión de Imágenes
@@ -119,6 +122,21 @@ Este archivo contiene una lista de los comandos de Docker más utilizados, con e
 8. **`docker inspect <id o nombre de imagen>`**  
    Muestra información detallada sobre una imagen, como configuraciones, etiquetas, y más.
 
+9. **`docker images prune`**  
+   Elimina todas las imágenes no utilizadas.
+
+10. **`docker images prune -a`**  
+    Elimina todas las imágenes no utilizadas, incluyendo las que no tienen etiquetas.
+
+11. **`docker images prune -af`**  
+    Elimina todas las imágenes no utilizadas sin pedir confirmación.
+
+12. **`docker builder prune`**  
+    Elimina datos no utilizados por el builder de Docker (como capas intermedias no necesarias).
+
+13. **`docker builder prune -a`**  
+    Elimina todas las capas de build que no se están utilizando.
+
 ---
 
 ## Comandos de Redes y Volúmenes
@@ -146,6 +164,9 @@ Este archivo contiene una lista de los comandos de Docker más utilizados, con e
 
 8. **`docker inspect <nombre-volumen>`**  
    Muestra información detallada sobre un volumen.
+
+9. **`docker volume prune`**  
+   Elimina volúmenes no utilizados.
 
 ---
 
@@ -197,7 +218,10 @@ Este archivo contiene una lista de los comandos de Docker más utilizados, con e
 6. **`docker system prune`**  
    Elimina todos los contenedores detenidos, imágenes sin usar, redes no utilizadas y volúmenes no utilizados.
 
-7. **`docker info`**  
+7. **`docker system prune -a`**  
+   Elimina todos los recursos no utilizados (contenedores detenidos, imágenes no etiquetadas, etc.) sin preguntar.
+
+8. **`docker info`**  
    Muestra información del sistema Docker, como contenedores en ejecución, imágenes, y configuraciones.
 
 ---
@@ -205,7 +229,6 @@ Este archivo contiene una lista de los comandos de Docker más utilizados, con e
 ### Estructura Básica de un Dockerfile
 
 ```bash
-     
 # Usar una imagen base
 FROM <imagen-base>
 
@@ -223,38 +246,4 @@ EXPOSE <puerto>
 
 # Comando por defecto que se ejecuta cuando el contenedor inicia
 CMD ["<comando>", "<argumentos>"]
-```
-
-### Ejemplo del Dockerfile
-
-```bash
-# Usar una imagen base
-# Definimos la imagen base, como una distribución o una plataforma específica.
-# Ejemplo: Usamos una imagen oficial de Node.js.
-FROM node:14
-
-# Establecer el directorio de trabajo
-# Establece el directorio dentro del contenedor donde se ejecutarán las siguientes instrucciones.
-# Si no existe, Docker lo crea.
-WORKDIR /app
-
-# Copiar archivos locales al contenedor
-# Copia archivos desde tu máquina local al contenedor.
-# Ejemplo: Copiamos todo el proyecto al contenedor.
-COPY . /app
-
-# Instalar dependencias o software
-# Ejecuta comandos como instalación de dependencias. 
-# Ejemplo: Instalamos las dependencias de Node.js desde package.json.
-RUN npm install
-
-# Exponer puertos
-# Define los puertos que estarán disponibles para el contenedor. 
-# Ejemplo: Exponemos el puerto 8080 para que la aplicación sea accesible desde fuera.
-EXPOSE 8080
-
-# Comando por defecto que se ejecuta cuando el contenedor inicia
-# Especifica el comando que se ejecuta cuando el contenedor comienza a ejecutarse.
-# Ejemplo: Iniciamos la aplicación de Node.js con npm.
-CMD ["npm", "start"]
 
